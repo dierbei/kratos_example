@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	v1 "hello/api/helloworld/v1"
 	"hello/internal/biz"
 )
@@ -21,6 +20,13 @@ func NewGreeterService(uc *biz.GreeterUsecase) *GreeterService {
 
 // SayHello implements helloworld.GreeterServer.
 func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1.HelloReply, error) {
+	//conn, err := grpc.Dial(context.Background(), grpc.WithEndpoint("127.0.0.1:9001"))
+	//if err != nil {
+	//	panic(err)
+	//}
+	//userClient := v1.NewUserClient(conn)
+	//userClient.GetUser()
+
 	g, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: in.Name})
 	if err != nil {
 		return nil, err
