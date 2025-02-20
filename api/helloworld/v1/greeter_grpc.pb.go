@@ -19,107 +19,263 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Greeter_SayHello_FullMethodName = "/helloworld.v1.Greeter/SayHello"
+	BffService_GetUser_FullMethodName    = "/helloworld.v1.BffService/GetUser"
+	BffService_CreateUser_FullMethodName = "/helloworld.v1.BffService/CreateUser"
+	BffService_UpdateUser_FullMethodName = "/helloworld.v1.BffService/UpdateUser"
+	BffService_DeleteUser_FullMethodName = "/helloworld.v1.BffService/DeleteUser"
+	BffService_ListUsers_FullMethodName  = "/helloworld.v1.BffService/ListUsers"
 )
 
-// GreeterClient is the client API for Greeter service.
+// BffServiceClient is the client API for BffService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// The greeting service definition.
-type GreeterClient interface {
-	// Sends a greeting
-	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+type BffServiceClient interface {
+	// 获取单个用户信息 (GET)
+	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	// 创建用户 (POST)
+	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	// 更新用户信息 (PUT)
+	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	// 删除用户 (DELETE)
+	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserReply, error)
+	// 获取用户列表 (GET)
+	ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserReply, error)
 }
 
-type greeterClient struct {
+type bffServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
-	return &greeterClient{cc}
+func NewBffServiceClient(cc grpc.ClientConnInterface) BffServiceClient {
+	return &bffServiceClient{cc}
 }
 
-func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
+func (c *bffServiceClient) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, Greeter_SayHello_FullMethodName, in, out, cOpts...)
+	out := new(GetUserReply)
+	err := c.cc.Invoke(ctx, BffService_GetUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GreeterServer is the server API for Greeter service.
-// All implementations must embed UnimplementedGreeterServer
-// for forward compatibility.
-//
-// The greeting service definition.
-type GreeterServer interface {
-	// Sends a greeting
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	mustEmbedUnimplementedGreeterServer()
+func (c *bffServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserReply)
+	err := c.cc.Invoke(ctx, BffService_CreateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedGreeterServer must be embedded to have
+func (c *bffServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserReply)
+	err := c.cc.Invoke(ctx, BffService_UpdateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bffServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteUserReply)
+	err := c.cc.Invoke(ctx, BffService_DeleteUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bffServiceClient) ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListUserReply)
+	err := c.cc.Invoke(ctx, BffService_ListUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BffServiceServer is the server API for BffService service.
+// All implementations must embed UnimplementedBffServiceServer
+// for forward compatibility.
+type BffServiceServer interface {
+	// 获取单个用户信息 (GET)
+	GetUser(context.Context, *GetUserReq) (*GetUserReply, error)
+	// 创建用户 (POST)
+	CreateUser(context.Context, *CreateUserReq) (*GetUserReply, error)
+	// 更新用户信息 (PUT)
+	UpdateUser(context.Context, *UpdateUserReq) (*GetUserReply, error)
+	// 删除用户 (DELETE)
+	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserReply, error)
+	// 获取用户列表 (GET)
+	ListUsers(context.Context, *ListUserReq) (*ListUserReply, error)
+	mustEmbedUnimplementedBffServiceServer()
+}
+
+// UnimplementedBffServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedGreeterServer struct{}
+type UnimplementedBffServiceServer struct{}
 
-func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+func (UnimplementedBffServiceServer) GetUser(context.Context, *GetUserReq) (*GetUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
-func (UnimplementedGreeterServer) testEmbeddedByValue()                 {}
+func (UnimplementedBffServiceServer) CreateUser(context.Context, *CreateUserReq) (*GetUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedBffServiceServer) UpdateUser(context.Context, *UpdateUserReq) (*GetUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedBffServiceServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedBffServiceServer) ListUsers(context.Context, *ListUserReq) (*ListUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedBffServiceServer) mustEmbedUnimplementedBffServiceServer() {}
+func (UnimplementedBffServiceServer) testEmbeddedByValue()                    {}
 
-// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GreeterServer will
+// UnsafeBffServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BffServiceServer will
 // result in compilation errors.
-type UnsafeGreeterServer interface {
-	mustEmbedUnimplementedGreeterServer()
+type UnsafeBffServiceServer interface {
+	mustEmbedUnimplementedBffServiceServer()
 }
 
-func RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {
-	// If the following call pancis, it indicates UnimplementedGreeterServer was
+func RegisterBffServiceServer(s grpc.ServiceRegistrar, srv BffServiceServer) {
+	// If the following call pancis, it indicates UnimplementedBffServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Greeter_ServiceDesc, srv)
+	s.RegisterService(&BffService_ServiceDesc, srv)
 }
 
-func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _BffService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).SayHello(ctx, in)
+		return srv.(BffServiceServer).GetUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Greeter_SayHello_FullMethodName,
+		FullMethod: BffService_GetUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
+		return srv.(BffServiceServer).GetUser(ctx, req.(*GetUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
+func _BffService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BffServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BffService_CreateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BffServiceServer).CreateUser(ctx, req.(*CreateUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BffService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BffServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BffService_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BffServiceServer).UpdateUser(ctx, req.(*UpdateUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BffService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BffServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BffService_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BffServiceServer).DeleteUser(ctx, req.(*DeleteUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BffService_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BffServiceServer).ListUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BffService_ListUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BffServiceServer).ListUsers(ctx, req.(*ListUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BffService_ServiceDesc is the grpc.ServiceDesc for BffService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Greeter_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "helloworld.v1.Greeter",
-	HandlerType: (*GreeterServer)(nil),
+var BffService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "helloworld.v1.BffService",
+	HandlerType: (*BffServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SayHello",
-			Handler:    _Greeter_SayHello_Handler,
+			MethodName: "GetUser",
+			Handler:    _BffService_GetUser_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _BffService_CreateUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _BffService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _BffService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "ListUsers",
+			Handler:    _BffService_ListUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -9,22 +9,84 @@ option java_multiple_files = true;
 option java_package = "dev.kratos.api.helloworld.v1";
 option java_outer_classname = "HelloworldProtoV1";
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {
+service BffService {
+  // 获取单个用户信息 (GET)
+  rpc GetUser (GetUserReq) returns (GetUserReply) {
     option (google.api.http) = {
-      get: "/helloworld/{name}"
+      get: "/api/users/{id}"
+    };
+  }
+
+  // 创建用户 (POST)
+  rpc CreateUser (CreateUserReq) returns (GetUserReply) {
+    option (google.api.http) = {
+      post: "/api/users"
+      body: "*"
+    };
+  }
+
+  // 更新用户信息 (PUT)
+  rpc UpdateUser (UpdateUserReq) returns (GetUserReply) {
+    option (google.api.http) = {
+      put: "/api/users/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除用户 (DELETE)
+  rpc DeleteUser (DeleteUserReq) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      delete: "/api/users/{id}"
+    };
+  }
+
+  // 获取用户列表 (GET)
+  rpc ListUsers (ListUserReq) returns (ListUserReply) {
+    option (google.api.http) = {
+      get: "/api/users"
     };
   }
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message UserModel {
+  int64 id = 1;
+  string name = 2;
+  int64 age = 3;
 }
 
-// The response message containing the greetings
-message HelloReply {
+message GetUserReq {
+  int64 id = 1;
+}
+
+message GetUserReply {
+  UserModel user = 1;
+}
+
+message CreateUserReq {
+  string name = 1;
+  int64 age = 2;
+}
+
+message UpdateUserReq {
+  int64 id = 1;
+  string name = 2;
+  int64 age = 3;
+}
+
+message DeleteUserReq {
+  int64 id = 1;
+}
+
+message DeleteUserReply {
   string message = 1;
+}
+
+message ListUserReq {
+  int32 page = 1;
+  int32 limit = 2;
+  string keyword = 3;
+}
+
+message ListUserReply {
+  repeated UserModel users = 1;
 }

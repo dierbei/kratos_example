@@ -3,18 +3,63 @@
 
 openapi: 3.0.3
 info:
-    title: Greeter API
-    description: The greeting service definition.
+    title: BffService API
     version: 0.0.1
 paths:
-    /helloworld/{name}:
+    /api/users:
         get:
             tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
+                - BffService
+            description: 获取用户列表 (GET)
+            operationId: BffService_ListUsers
             parameters:
-                - name: name
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.ListUserReply'
+        post:
+            tags:
+                - BffService
+            description: 创建用户 (POST)
+            operationId: BffService_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/helloworld.v1.CreateUserReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+    /api/users/{id}:
+        get:
+            tags:
+                - BffService
+            description: 获取单个用户信息 (GET)
+            operationId: BffService_GetUser
+            parameters:
+                - name: id
                   in: path
                   required: true
                   schema:
@@ -25,14 +70,92 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+        put:
+            tags:
+                - BffService
+            description: 更新用户信息 (PUT)
+            operationId: BffService_UpdateUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/helloworld.v1.UpdateUserReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+        delete:
+            tags:
+                - BffService
+            description: 删除用户 (DELETE)
+            operationId: BffService_DeleteUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.DeleteUserReply'
 components:
     schemas:
-        helloworld.v1.HelloReply:
+        helloworld.v1.CreateUserReq:
+            type: object
+            properties:
+                name:
+                    type: string
+                age:
+                    type: string
+        helloworld.v1.DeleteUserReply:
             type: object
             properties:
                 message:
                     type: string
-            description: The response message containing the greetings
+        helloworld.v1.GetUserReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/helloworld.v1.UserModel'
+        helloworld.v1.ListUserReply:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/helloworld.v1.UserModel'
+        helloworld.v1.UpdateUserReq:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                age:
+                    type: string
+        helloworld.v1.UserModel:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                age:
+                    type: string
 tags:
-    - name: Greeter
+    - name: BffService
