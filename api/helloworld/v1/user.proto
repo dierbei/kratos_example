@@ -14,17 +14,43 @@ service User {
 	rpc ListUser (ListUserRequest) returns (ListUserReply);
 }
 
-message CreateUserRequest {}
-message CreateUserReply {}
+message UserModel {
+	string name = 1;
+	int64 age = 2;
+	int64 id = 3;
+}
 
-message UpdateUserRequest {}
-message UpdateUserReply {}
+message CreateUserRequest {
+		UserModel user =1;
+}
+message CreateUserReply {
+	UserModel user =1;
+}
 
-message DeleteUserRequest {}
-message DeleteUserReply {}
+message UpdateUserRequest {
+	UserModel user =1;
 
-message GetUserRequest {}
-message GetUserReply {}
+}
+message UpdateUserReply {
+	UserModel user =1;
+}
 
-message ListUserRequest {}
-message ListUserReply {}
+message DeleteUserRequest {
+	UserModel user =1;
+}
+message DeleteUserReply {
+	UserModel user =1;
+}
+
+message GetUserRequest {
+	UserModel user =1;
+}
+message GetUserReply {
+	UserModel user =1;
+}
+
+message ListUserRequest {
+}
+message ListUserReply {
+	repeated UserModel user =1;
+}

@@ -22,26 +22,8 @@ func NewUserterRepo(data *Data, logger log.Logger) biz.UserterRepo {
 	}
 }
 
-//func NewUserterRepo(data *data2.Data, logger log.Logger) biz.UserRepo {
-//	return &userterRepo{
-//		data: data,
-//		log:  log.NewHelper(logger),
-//	}
-//}
-
 func (r *userterRepo) Save(ctx context.Context, req *ent.User) (*ent.User, error) {
-	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
-	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
-	}
-	defer client.Close()
-
-	//// Run the auto migration tool.
-	//if err := client.Schema.Create(context.Background()); err != nil {
-	//	log.Fatalf("failed creating schema resources: %v", err)
-	//}
-
-	u, err := client.User.Create().SetAge(req.Age).SetName(req.Name).Save(ctx)
+	u, err := r.data.db.User.Create().SetAge(req.Age).SetName(req.Name).Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed creating user: %v", err)
 	}
@@ -51,28 +33,24 @@ func (r *userterRepo) Save(ctx context.Context, req *ent.User) (*ent.User, error
 }
 
 func (r *userterRepo) Update(ctx context.Context, req *ent.User) (*ent.User, error) {
-	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
-	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
-	}
-	defer client.Close()
-
-	user, err := client.User.
+	user, err := r.data.db.User.
 		UpdateOneID(req.ID).
 		SetName(req.Name).
 		SetAge(req.Age).Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed Update user: %v", err)
+	}
 
 	return user, nil
 }
 
 func (r *userterRepo) FindByID(ctx context.Context, id int64) (*ent.User, error) {
-	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
+	user, err := r.data.db.User.Get(ctx, int(id))
 	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
+		return nil, fmt.Errorf("failed FindByID user: %v", err)
 	}
-	defer client.Close()
 
-	user, err := client.User.Get(ctx, int(id))
 	if err != nil {
 		return nil, fmt.Errorf("failed FindByID user: %v", err)
 	}
@@ -81,13 +59,7 @@ func (r *userterRepo) FindByID(ctx context.Context, id int64) (*ent.User, error)
 }
 
 func (r *userterRepo) ListByHello(ctx context.Context, name string) ([]*ent.User, error) {
-	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
-	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
-	}
-	defer client.Close()
-
-	users, err := client.User.
+	users, err := r.data.db.User.
 		Query().
 		Where(
 			user.NameContains(name),
@@ -103,13 +75,7 @@ func (r *userterRepo) ListByHello(ctx context.Context, name string) ([]*ent.User
 }
 
 func (r *userterRepo) ListAll(ctx context.Context) ([]*ent.User, error) {
-	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
-	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
-	}
-	defer client.Close()
-
-	users, err := client.User.
+	users, err := r.data.db.User.
 		Query().
 		All(ctx)
 

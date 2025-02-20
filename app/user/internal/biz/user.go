@@ -42,3 +42,18 @@ func (uc *UserterUsecase) CreateUserter(ctx context.Context, u *ent.User) (*ent.
 	uc.log.WithContext(ctx).Infof("CreateUserter: %v", u.Name)
 	return uc.repo.Save(ctx, u)
 }
+
+func (uc *UserterUsecase) UpdateUserter(ctx context.Context, u *ent.User) (*ent.User, error) {
+	uc.log.WithContext(ctx).Infof("UpdateUserter: %v", u.Name)
+	return uc.repo.Update(ctx, u)
+}
+
+func (uc *UserterUsecase) FindByIDUserter(ctx context.Context, id int) (*ent.User, error) {
+	uc.log.WithContext(ctx).Infof("FindByIDUserter: %v", id)
+	return uc.repo.FindByID(ctx, int64(id))
+}
+
+func (uc *UserterUsecase) ListAllUserter(ctx context.Context) ([]*ent.User, error) {
+	uc.log.WithContext(ctx).Infof("ListAllUserter:")
+	return uc.repo.ListAll(ctx)
+}
