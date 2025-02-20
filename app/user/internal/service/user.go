@@ -2,16 +2,19 @@ package service
 
 import (
 	"context"
+	"hello/app/user/internal/biz"
 
 	pb "hello/api/helloworld/v1"
 )
 
 type UserService struct {
 	pb.UnimplementedUserServer
+
+	uc *biz.UserterUsecase
 }
 
-func NewUserService() *UserService {
-	return &UserService{}
+func NewUserterService(uc *biz.UserterUsecase) *UserService {
+	return &UserService{uc: uc}
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserReply, error) {
