@@ -31,15 +31,15 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BffServiceClient interface {
 	// 获取单个用户信息 (GET)
-	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserRes, error)
 	// 创建用户 (POST)
-	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserRes, error)
 	// 更新用户信息 (PUT)
-	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserReply, error)
+	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserRes, error)
 	// 删除用户 (DELETE)
-	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserReply, error)
+	DeleteUser(ctx context.Context, in *DelUserReq, opts ...grpc.CallOption) (*DelUserReply, error)
 	// 获取用户列表 (GET)
-	ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserReply, error)
+	ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserRes, error)
 }
 
 type bffServiceClient struct {
@@ -50,9 +50,9 @@ func NewBffServiceClient(cc grpc.ClientConnInterface) BffServiceClient {
 	return &bffServiceClient{cc}
 }
 
-func (c *bffServiceClient) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
+func (c *bffServiceClient) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserReply)
+	out := new(GetUserRes)
 	err := c.cc.Invoke(ctx, BffService_GetUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -60,9 +60,9 @@ func (c *bffServiceClient) GetUser(ctx context.Context, in *GetUserReq, opts ...
 	return out, nil
 }
 
-func (c *bffServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
+func (c *bffServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*GetUserRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserReply)
+	out := new(GetUserRes)
 	err := c.cc.Invoke(ctx, BffService_CreateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -70,9 +70,9 @@ func (c *bffServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, op
 	return out, nil
 }
 
-func (c *bffServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserReply, error) {
+func (c *bffServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*GetUserRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserReply)
+	out := new(GetUserRes)
 	err := c.cc.Invoke(ctx, BffService_UpdateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -80,9 +80,9 @@ func (c *bffServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReq, op
 	return out, nil
 }
 
-func (c *bffServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserReply, error) {
+func (c *bffServiceClient) DeleteUser(ctx context.Context, in *DelUserReq, opts ...grpc.CallOption) (*DelUserReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteUserReply)
+	out := new(DelUserReply)
 	err := c.cc.Invoke(ctx, BffService_DeleteUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -90,9 +90,9 @@ func (c *bffServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReq, op
 	return out, nil
 }
 
-func (c *bffServiceClient) ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserReply, error) {
+func (c *bffServiceClient) ListUsers(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListUserReply)
+	out := new(ListUserRes)
 	err := c.cc.Invoke(ctx, BffService_ListUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -105,15 +105,15 @@ func (c *bffServiceClient) ListUsers(ctx context.Context, in *ListUserReq, opts 
 // for forward compatibility.
 type BffServiceServer interface {
 	// 获取单个用户信息 (GET)
-	GetUser(context.Context, *GetUserReq) (*GetUserReply, error)
+	GetUser(context.Context, *GetUserReq) (*GetUserRes, error)
 	// 创建用户 (POST)
-	CreateUser(context.Context, *CreateUserReq) (*GetUserReply, error)
+	CreateUser(context.Context, *CreateUserReq) (*GetUserRes, error)
 	// 更新用户信息 (PUT)
-	UpdateUser(context.Context, *UpdateUserReq) (*GetUserReply, error)
+	UpdateUser(context.Context, *UpdateUserReq) (*GetUserRes, error)
 	// 删除用户 (DELETE)
-	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserReply, error)
+	DeleteUser(context.Context, *DelUserReq) (*DelUserReply, error)
 	// 获取用户列表 (GET)
-	ListUsers(context.Context, *ListUserReq) (*ListUserReply, error)
+	ListUsers(context.Context, *ListUserReq) (*ListUserRes, error)
 	mustEmbedUnimplementedBffServiceServer()
 }
 
@@ -124,19 +124,19 @@ type BffServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedBffServiceServer struct{}
 
-func (UnimplementedBffServiceServer) GetUser(context.Context, *GetUserReq) (*GetUserReply, error) {
+func (UnimplementedBffServiceServer) GetUser(context.Context, *GetUserReq) (*GetUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedBffServiceServer) CreateUser(context.Context, *CreateUserReq) (*GetUserReply, error) {
+func (UnimplementedBffServiceServer) CreateUser(context.Context, *CreateUserReq) (*GetUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedBffServiceServer) UpdateUser(context.Context, *UpdateUserReq) (*GetUserReply, error) {
+func (UnimplementedBffServiceServer) UpdateUser(context.Context, *UpdateUserReq) (*GetUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedBffServiceServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserReply, error) {
+func (UnimplementedBffServiceServer) DeleteUser(context.Context, *DelUserReq) (*DelUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
-func (UnimplementedBffServiceServer) ListUsers(context.Context, *ListUserReq) (*ListUserReply, error) {
+func (UnimplementedBffServiceServer) ListUsers(context.Context, *ListUserReq) (*ListUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
 }
 func (UnimplementedBffServiceServer) mustEmbedUnimplementedBffServiceServer() {}
@@ -215,7 +215,7 @@ func _BffService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _BffService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserReq)
+	in := new(DelUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -227,7 +227,7 @@ func _BffService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: BffService_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BffServiceServer).DeleteUser(ctx, req.(*DeleteUserReq))
+		return srv.(BffServiceServer).DeleteUser(ctx, req.(*DelUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

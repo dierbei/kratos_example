@@ -27,15 +27,15 @@ const OperationBffServiceUpdateUser = "/helloworld.v1.BffService/UpdateUser"
 
 type BffServiceHTTPServer interface {
 	// CreateUser 创建用户 (POST)
-	CreateUser(context.Context, *CreateUserReq) (*GetUserReply, error)
+	CreateUser(context.Context, *CreateUserReq) (*GetUserRes, error)
 	// DeleteUser 删除用户 (DELETE)
-	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserReply, error)
+	DeleteUser(context.Context, *DelUserReq) (*DelUserReply, error)
 	// GetUser 获取单个用户信息 (GET)
-	GetUser(context.Context, *GetUserReq) (*GetUserReply, error)
+	GetUser(context.Context, *GetUserReq) (*GetUserRes, error)
 	// ListUsers 获取用户列表 (GET)
-	ListUsers(context.Context, *ListUserReq) (*ListUserReply, error)
+	ListUsers(context.Context, *ListUserReq) (*ListUserRes, error)
 	// UpdateUser 更新用户信息 (PUT)
-	UpdateUser(context.Context, *UpdateUserReq) (*GetUserReply, error)
+	UpdateUser(context.Context, *UpdateUserReq) (*GetUserRes, error)
 }
 
 func RegisterBffServiceHTTPServer(s *http.Server, srv BffServiceHTTPServer) {
@@ -64,7 +64,7 @@ func _BffService_GetUser0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx http.C
 		if err != nil {
 			return err
 		}
-		reply := out.(*GetUserReply)
+		reply := out.(*GetUserRes)
 		return ctx.Result(200, reply)
 	}
 }
@@ -86,7 +86,7 @@ func _BffService_CreateUser0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx htt
 		if err != nil {
 			return err
 		}
-		reply := out.(*GetUserReply)
+		reply := out.(*GetUserRes)
 		return ctx.Result(200, reply)
 	}
 }
@@ -111,14 +111,14 @@ func _BffService_UpdateUser0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx htt
 		if err != nil {
 			return err
 		}
-		reply := out.(*GetUserReply)
+		reply := out.(*GetUserRes)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _BffService_DeleteUser0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in DeleteUserReq
+		var in DelUserReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -127,13 +127,13 @@ func _BffService_DeleteUser0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx htt
 		}
 		http.SetOperation(ctx, OperationBffServiceDeleteUser)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteUser(ctx, req.(*DeleteUserReq))
+			return srv.DeleteUser(ctx, req.(*DelUserReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*DeleteUserReply)
+		reply := out.(*DelUserReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -152,17 +152,17 @@ func _BffService_ListUsers0_HTTP_Handler(srv BffServiceHTTPServer) func(ctx http
 		if err != nil {
 			return err
 		}
-		reply := out.(*ListUserReply)
+		reply := out.(*ListUserRes)
 		return ctx.Result(200, reply)
 	}
 }
 
 type BffServiceHTTPClient interface {
-	CreateUser(ctx context.Context, req *CreateUserReq, opts ...http.CallOption) (rsp *GetUserReply, err error)
-	DeleteUser(ctx context.Context, req *DeleteUserReq, opts ...http.CallOption) (rsp *DeleteUserReply, err error)
-	GetUser(ctx context.Context, req *GetUserReq, opts ...http.CallOption) (rsp *GetUserReply, err error)
-	ListUsers(ctx context.Context, req *ListUserReq, opts ...http.CallOption) (rsp *ListUserReply, err error)
-	UpdateUser(ctx context.Context, req *UpdateUserReq, opts ...http.CallOption) (rsp *GetUserReply, err error)
+	CreateUser(ctx context.Context, req *CreateUserReq, opts ...http.CallOption) (rsp *GetUserRes, err error)
+	DeleteUser(ctx context.Context, req *DelUserReq, opts ...http.CallOption) (rsp *DelUserReply, err error)
+	GetUser(ctx context.Context, req *GetUserReq, opts ...http.CallOption) (rsp *GetUserRes, err error)
+	ListUsers(ctx context.Context, req *ListUserReq, opts ...http.CallOption) (rsp *ListUserRes, err error)
+	UpdateUser(ctx context.Context, req *UpdateUserReq, opts ...http.CallOption) (rsp *GetUserRes, err error)
 }
 
 type BffServiceHTTPClientImpl struct {
@@ -173,8 +173,8 @@ func NewBffServiceHTTPClient(client *http.Client) BffServiceHTTPClient {
 	return &BffServiceHTTPClientImpl{client}
 }
 
-func (c *BffServiceHTTPClientImpl) CreateUser(ctx context.Context, in *CreateUserReq, opts ...http.CallOption) (*GetUserReply, error) {
-	var out GetUserReply
+func (c *BffServiceHTTPClientImpl) CreateUser(ctx context.Context, in *CreateUserReq, opts ...http.CallOption) (*GetUserRes, error) {
+	var out GetUserRes
 	pattern := "/api/users"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationBffServiceCreateUser))
@@ -186,8 +186,8 @@ func (c *BffServiceHTTPClientImpl) CreateUser(ctx context.Context, in *CreateUse
 	return &out, nil
 }
 
-func (c *BffServiceHTTPClientImpl) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...http.CallOption) (*DeleteUserReply, error) {
-	var out DeleteUserReply
+func (c *BffServiceHTTPClientImpl) DeleteUser(ctx context.Context, in *DelUserReq, opts ...http.CallOption) (*DelUserReply, error) {
+	var out DelUserReply
 	pattern := "/api/users/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationBffServiceDeleteUser))
@@ -199,8 +199,8 @@ func (c *BffServiceHTTPClientImpl) DeleteUser(ctx context.Context, in *DeleteUse
 	return &out, nil
 }
 
-func (c *BffServiceHTTPClientImpl) GetUser(ctx context.Context, in *GetUserReq, opts ...http.CallOption) (*GetUserReply, error) {
-	var out GetUserReply
+func (c *BffServiceHTTPClientImpl) GetUser(ctx context.Context, in *GetUserReq, opts ...http.CallOption) (*GetUserRes, error) {
+	var out GetUserRes
 	pattern := "/api/users/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationBffServiceGetUser))
@@ -212,8 +212,8 @@ func (c *BffServiceHTTPClientImpl) GetUser(ctx context.Context, in *GetUserReq, 
 	return &out, nil
 }
 
-func (c *BffServiceHTTPClientImpl) ListUsers(ctx context.Context, in *ListUserReq, opts ...http.CallOption) (*ListUserReply, error) {
-	var out ListUserReply
+func (c *BffServiceHTTPClientImpl) ListUsers(ctx context.Context, in *ListUserReq, opts ...http.CallOption) (*ListUserRes, error) {
+	var out ListUserRes
 	pattern := "/api/users"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationBffServiceListUsers))
@@ -225,8 +225,8 @@ func (c *BffServiceHTTPClientImpl) ListUsers(ctx context.Context, in *ListUserRe
 	return &out, nil
 }
 
-func (c *BffServiceHTTPClientImpl) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...http.CallOption) (*GetUserReply, error) {
-	var out GetUserReply
+func (c *BffServiceHTTPClientImpl) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...http.CallOption) (*GetUserRes, error) {
+	var out GetUserRes
 	pattern := "/api/users/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationBffServiceUpdateUser))

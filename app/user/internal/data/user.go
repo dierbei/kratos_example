@@ -29,7 +29,7 @@ func (r *userterRepo) Save(ctx context.Context, req *ent.User) (*ent.User, error
 	}
 	fmt.Println("user was created: ", u)
 
-	return nil, nil
+	return u, nil
 }
 
 func (r *userterRepo) Update(ctx context.Context, req *ent.User) (*ent.User, error) {

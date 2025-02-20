@@ -28,6 +28,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		return nil, err
 	}
 
+	//fmt.Println(u)
 	return &pb.CreateUserReply{
 		User: &pb.UserModel{
 			Name: u.Name,

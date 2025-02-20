@@ -33,7 +33,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.ListUserReply'
+                                $ref: '#/components/schemas/helloworld.v1.ListUserRes'
         post:
             tags:
                 - BffService
@@ -51,7 +51,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+                                $ref: '#/components/schemas/helloworld.v1.GetUserRes'
     /api/users/{id}:
         get:
             tags:
@@ -70,7 +70,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+                                $ref: '#/components/schemas/helloworld.v1.GetUserRes'
         put:
             tags:
                 - BffService
@@ -94,7 +94,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.GetUserReply'
+                                $ref: '#/components/schemas/helloworld.v1.GetUserRes'
         delete:
             tags:
                 - BffService
@@ -112,7 +112,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.DeleteUserReply'
+                                $ref: '#/components/schemas/helloworld.v1.DelUserReply'
 components:
     schemas:
         helloworld.v1.CreateUserReq:
@@ -122,23 +122,23 @@ components:
                     type: string
                 age:
                     type: string
-        helloworld.v1.DeleteUserReply:
+        helloworld.v1.DelUserReply:
             type: object
             properties:
                 message:
                     type: string
-        helloworld.v1.GetUserReply:
+        helloworld.v1.GetUserRes:
             type: object
             properties:
                 user:
-                    $ref: '#/components/schemas/helloworld.v1.UserModel'
-        helloworld.v1.ListUserReply:
+                    $ref: '#/components/schemas/helloworld.v1.UserInfo'
+        helloworld.v1.ListUserRes:
             type: object
             properties:
                 users:
                     type: array
                     items:
-                        $ref: '#/components/schemas/helloworld.v1.UserModel'
+                        $ref: '#/components/schemas/helloworld.v1.UserInfo'
         helloworld.v1.UpdateUserReq:
             type: object
             properties:
@@ -148,7 +148,7 @@ components:
                     type: string
                 age:
                     type: string
-        helloworld.v1.UserModel:
+        helloworld.v1.UserInfo:
             type: object
             properties:
                 id:

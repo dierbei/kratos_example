@@ -11,14 +11,14 @@ option java_outer_classname = "HelloworldProtoV1";
 
 service BffService {
   // 获取单个用户信息 (GET)
-  rpc GetUser (GetUserReq) returns (GetUserReply) {
+  rpc GetUser (GetUserReq) returns (GetUserRes) {
     option (google.api.http) = {
       get: "/api/users/{id}"
     };
   }
 
   // 创建用户 (POST)
-  rpc CreateUser (CreateUserReq) returns (GetUserReply) {
+  rpc CreateUser (CreateUserReq) returns (GetUserRes) {
     option (google.api.http) = {
       post: "/api/users"
       body: "*"
@@ -26,7 +26,7 @@ service BffService {
   }
 
   // 更新用户信息 (PUT)
-  rpc UpdateUser (UpdateUserReq) returns (GetUserReply) {
+  rpc UpdateUser (UpdateUserReq) returns (GetUserRes) {
     option (google.api.http) = {
       put: "/api/users/{id}"
       body: "*"
@@ -34,21 +34,21 @@ service BffService {
   }
 
   // 删除用户 (DELETE)
-  rpc DeleteUser (DeleteUserReq) returns (DeleteUserReply) {
+  rpc DeleteUser (DelUserReq) returns (DelUserReply) {
     option (google.api.http) = {
       delete: "/api/users/{id}"
     };
   }
 
   // 获取用户列表 (GET)
-  rpc ListUsers (ListUserReq) returns (ListUserReply) {
+  rpc ListUsers (ListUserReq) returns (ListUserRes) {
     option (google.api.http) = {
       get: "/api/users"
     };
   }
 }
 
-message UserModel {
+message UserInfo {
   int64 id = 1;
   string name = 2;
   int64 age = 3;
@@ -58,8 +58,8 @@ message GetUserReq {
   int64 id = 1;
 }
 
-message GetUserReply {
-  UserModel user = 1;
+message GetUserRes {
+  UserInfo user = 1;
 }
 
 message CreateUserReq {
@@ -73,11 +73,11 @@ message UpdateUserReq {
   int64 age = 3;
 }
 
-message DeleteUserReq {
+message DelUserReq {
   int64 id = 1;
 }
 
-message DeleteUserReply {
+message DelUserReply {
   string message = 1;
 }
 
@@ -87,6 +87,6 @@ message ListUserReq {
   string keyword = 3;
 }
 
-message ListUserReply {
-  repeated UserModel users = 1;
+message ListUserRes {
+  repeated UserInfo users = 1;
 }

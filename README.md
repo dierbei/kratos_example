@@ -1,51 +1,28 @@
-# Kratos Project Template
+# Quick start
+```shell
+go mod download
 
-## Install Kratos
-```
-go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
-```
-## Create a service
-```
-# Create a template project
-kratos new server
+# 分别启动 user 和 hello 服务
+kratos run
 
-cd server
-# Add a proto template
-kratos proto add api/server/server.proto
-# Generate the proto code
-kratos proto client api/server/server.proto
-# Generate the source code of service by proto file
-kratos proto server api/server/server.proto -t internal/service
+# 增加用户
+curl -X POST "http://localhost:8000/api/users" -d '{"name": "Alice", "age": 25}'
 
-go generate ./...
-go build -o ./bin/ ./...
-./bin/server -conf ./configs
-```
-## Generate other auxiliary files by Makefile
-```
-# Download and update dependencies
-make init
-# Generate API files (include: pb.go, http, grpc, validate, swagger) by proto file
-make api
-# Generate all files
-make all
-```
-## Automated Initialization (wire)
-```
-# install wire
-go get github.com/google/wire/cmd/wire
-
-# generate wire
-cd cmd/server
-wire
+# 查询用户
+curl -X GET "http://localhost:8000/api/users/1"           
 ```
 
-## Docker
-```bash
-# build
-docker build -t <your-docker-image-name> .
+# debug
+```shell
+xiaolatiao@xiaolatiaodeMacBook-Pro GolandProjects % curl -X GET "http://localhost:8000/api/users/1"
+{"code":500,"reason":"","message":"failed FindByID user: ent: user not found","metadata":{}}%                                                                                           
+xiaolatiao@xiaolatiaodeMacBook-Pro GolandProjects % curl -X POST "http://localhost:8000/api/users" -d '{"name": "Alice", "age": 25}'
 
-# run
-docker run --rm -p 8000:8000 -p 9000:9000 -v </path/to/your/configs>:/data/conf <your-docker-image-name>
+{"user":{"id":"1","name":"Alice","age":"25"}}%                                                                                                                                          
+xiaolatiao@xiaolatiaodeMacBook-Pro GolandProjects % curl -X GET "http://localhost:8000/api/users/1"                                 
+{"user":{"id":"1","name":"Alice","age":"25"}}%                                                                                                                                          
+xiaolatiao@xiaolatiaodeMacBook-Pro GolandProjects % 
 ```
 
+# ref
+- https://go-kratos.dev/docs/component/transport/http
