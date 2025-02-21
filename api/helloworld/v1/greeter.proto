@@ -88,5 +88,7 @@ message ListUserReq {
 }
 
 message ListUserRes {
-  repeated UserInfo users = 1;
+  string code = 1;
+  repeated UserInfo data = 2;
+  string msg = 3;
 }

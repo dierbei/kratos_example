@@ -9,7 +9,10 @@ kratos run
 curl -X POST "http://localhost:8000/api/users" -d '{"name": "Alice", "age": 25}'
 
 # 查询用户
-curl -X GET "http://localhost:8000/api/users/1"           
+curl -X GET "http://localhost:8000/api/users/1"   
+
+# 用户列表
+curl -X GET "http://localhost:8000/api/users"        
 ```
 
 # debug

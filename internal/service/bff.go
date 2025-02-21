@@ -114,6 +114,8 @@ func (s *BffService) ListUsers(ctx context.Context, in *v1.ListUserReq) (*v1.Lis
 	}
 
 	return &v1.ListUserRes{
-		Users: users,
+		Data: users,
+		Code: "00000",
+		Msg:  "一切ok",
 	}, nil
 }

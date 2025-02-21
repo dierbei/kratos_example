@@ -135,10 +135,14 @@ components:
         helloworld.v1.ListUserRes:
             type: object
             properties:
-                users:
+                code:
+                    type: string
+                data:
                     type: array
                     items:
                         $ref: '#/components/schemas/helloworld.v1.UserInfo'
+                msg:
+                    type: string
         helloworld.v1.UpdateUserReq:
             type: object
             properties:

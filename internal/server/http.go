@@ -12,6 +12,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/gorilla/handlers"
 )
 
 // DefaultRequestDecoder decodes the request body to object.
@@ -50,6 +51,13 @@ func NewHTTPServer(c *conf.Server, bff *service.BffService, logger log.Logger) *
 			recovery.Recovery(),
 		),
 		http.RequestDecoder(DefaultRequestDecoder),
+		http.Filter(handlers.CORS(
+			handlers.AllowedOrigins([]string{"http://localhost:3000"}),
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"}),
+			handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+			handlers.AllowCredentials(),
+		)),
 	}
 	if c.Http.Network != "" {
 		opts = append(opts, http.Network(c.Http.Network))
